@@ -7,3 +7,10 @@ export const fetchArticles = async(): Promise<Article[]> => {
     const response = await apiClient.get(`https://newsapi.org/v2/everything?domains=techcrunch.com,thenextweb.com,bbc.co.uk&language=en&apiKey=${apiKey}`);
     return response.data.articles;
 }
+
+export const fetchSearchArticles = async (query: string) : Promise<Article[]>=>{
+    console.log("query:", query)
+    const response = await fetch(`https://newsapi.org/v2/everything?domains=techcrunch.com,thenextweb.com,bbc.co.uk&language=en&apiKey=${apiKey}&q=${encodeURIComponent(query)}`);
+    const data = await response.json();
+    return data.articles;
+}

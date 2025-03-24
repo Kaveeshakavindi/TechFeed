@@ -18,4 +18,5 @@ export interface Article {
 export interface ArticlesState{
     articles: Article[];
     loading: boolean;
+    error: boolean;
 }

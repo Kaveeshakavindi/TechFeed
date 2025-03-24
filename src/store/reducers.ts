@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Article, ArticlesState } from "@/types/types";
-import { getArticles } from "./actions";
+import { getArticles, getSearchArticles } from "./actions";
 
 const initialState: ArticlesState = {
     articles: [],
     loading: false,
+    error: false,
 }
-const articlesSlice = createSlice({
+const initialSearchState: ArticlesState = {
+    articles: [],
+    loading: false,
+    error: false,
+}
+export const articlesSlice = createSlice({
     name: "articles",
     initialState,
     reducers: {},
@@ -21,9 +27,29 @@ const articlesSlice = createSlice({
         })
         .addCase(getArticles.rejected, (state, action) => {
             state.loading = false;
+            state.error = true;
             console.error("Error fetching articles:", action.error)
         })
     }
 })
 
-export default articlesSlice.reducer
+export const searchArticleSlice = createSlice({
+    name: "searchArticles",
+    initialState: initialSearchState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+        .addCase(getSearchArticles.pending, (state) => {
+            state.loading = true
+        })
+        .addCase(getSearchArticles.fulfilled, (state, action: PayloadAction<Article[]>) => {
+            state.loading = false;
+            state.articles = action.payload;
+        })
+        .addCase(getSearchArticles.rejected, (state, action) => {
+            state.loading = false;
+            state.error = true;
+            console.error("Error fetching articles:", action.error)
+        })
+    }
+})

@@ -1,9 +1,10 @@
 "use client"
 import { configureStore } from "@reduxjs/toolkit";
-import articlesReducer from './reducers'
+import { articlesSlice, searchArticleSlice } from "./reducers";
 export const store = configureStore({
     reducer: {
-        articles: articlesReducer,
+        articles: articlesSlice.reducer,
+        searchArticles: searchArticleSlice.reducer,
     }
 })
 
