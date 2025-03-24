@@ -76,9 +76,9 @@ export const bookMarkedArticlesSlice = createSlice({
             state.articles = state.articles.filter((article) => article.url !== action.payload);
         },
     },
-    extraReducers: (builder) => {
-        //TO DO
-    },
+    // extraReducers: (builder) => {
+    //     //TO DO
+    // },
 });
 
 export const {

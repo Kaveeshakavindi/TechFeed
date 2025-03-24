@@ -19,14 +19,14 @@ export const getArticles = createAsyncThunk<Article[], void>(
 
   export const addBookmarkedArticle = createAsyncThunk(
     "bookmarkedArticles/add",
-    (article: Article, { getState, dispatch }) => {
+    (article: Article, { dispatch }) => {
         dispatch(addBookmarkedArticleSuccess(article));
     }
 );
 
 export const removeBookmarkedArticle = createAsyncThunk(
     "bookmarkedArticles/remove",
-    (url: string, { getState, dispatch }) => {
+    (url: string, { dispatch }) => {
         dispatch(removeBookmarkedArticleSuccess(url));
     }
 );

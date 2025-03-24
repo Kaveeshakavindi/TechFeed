@@ -11,26 +11,20 @@ import {
 } from "@/store/reducers";
 import { Article } from "@/types/types";
 
-interface NewsCardProps {
-  article: {
-    urlToImage: string;
-    title: string;
-    description: string;
-    url: string;
-  };
-}
+// interface NewsCardProps {
+//   article: {
+//     urlToImage: string;
+//     title: string;
+//     description: string;
+//     url: string;
+//   };
+// }
 
 const NewsCard = ({ article }: { article: Article }) => {
   const dispatch = useDispatch();
   const bookmarkedArticles = useSelector(
     (state: RootState) => state.bookmarkedArticles
   );
-  const handleBookMark = () => {
-    dispatch(addBookmarkedArticleSuccess(article));
-  };
-  const handleRemoveBookmark = () => {
-    dispatch(removeBookmarkedArticleSuccess(article.url));
-  };
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -49,7 +43,6 @@ const NewsCard = ({ article }: { article: Article }) => {
       dispatch(addBookmarkedArticleSuccess(article));
     }
   };
-  const articleSlug = generateSlug(article.title);
   return (
     <Card
       maxW="sm"
