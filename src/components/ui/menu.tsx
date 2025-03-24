@@ -31,8 +31,3 @@ export default function CustomMenu() {
     </Menu>
   );
 }
-
-const items = [
-  { label: "Ascending", value: "asc" },
-  { label: "Descending", value: "desc" },
-];

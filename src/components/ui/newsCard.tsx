@@ -25,14 +25,6 @@ const NewsCard = ({ article }: { article: Article }) => {
   const bookmarkedArticles = useSelector(
     (state: RootState) => state.bookmarkedArticles
   );
-  const generateSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/-+$/, "");
-  };
   const isBookmarked = bookmarkedArticles.articles.some(
     (a) => a.url === article.url
   );
