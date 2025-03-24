@@ -1,10 +1,11 @@
 "use client"
 import { configureStore } from "@reduxjs/toolkit";
-import { articlesSlice, searchArticleSlice } from "./reducers";
+import { articlesSlice, bookMarkedArticlesSlice, searchArticleSlice } from "./reducers";
 export const store = configureStore({
     reducer: {
         articles: articlesSlice.reducer,
         searchArticles: searchArticleSlice.reducer,
+        bookmarkedArticles: bookMarkedArticlesSlice.reducer
     }
 })
 

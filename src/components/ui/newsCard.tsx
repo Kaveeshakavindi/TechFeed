@@ -1,7 +1,15 @@
+"use client";
 import React from "react";
-import { Card, Box, Image, Heading, Text } from "@chakra-ui/react"; // Assuming you are using Chakra UI
-import { FaRegBookmark } from "react-icons/fa"; // For the bookmark icon
+import { Card, Box, Image, Heading, Text, IconButton } from "@chakra-ui/react"; // Assuming you are using Chakra UI
+import { FaBookmark, FaRegBookmark } from "react-icons/fa"; // For the bookmark icon
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import {
+  addBookmarkedArticleSuccess,
+  removeBookmarkedArticleSuccess,
+} from "@/store/reducers";
+import { Article } from "@/types/types";
 
 interface NewsCardProps {
   article: {
@@ -12,7 +20,17 @@ interface NewsCardProps {
   };
 }
 
-const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
+const NewsCard = ({ article }: { article: Article }) => {
+  const dispatch = useDispatch();
+  const bookmarkedArticles = useSelector(
+    (state: RootState) => state.bookmarkedArticles
+  );
+  const handleBookMark = () => {
+    dispatch(addBookmarkedArticleSuccess(article));
+  };
+  const handleRemoveBookmark = () => {
+    dispatch(removeBookmarkedArticleSuccess(article.url));
+  };
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
@@ -21,13 +39,25 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
       .replace(/\s+/g, "-")
       .replace(/-+$/, "");
   };
-
+  const isBookmarked = bookmarkedArticles.articles.some(
+    (a) => a.url === article.url
+  );
+  const toggleBookmark = () => {
+    if (isBookmarked) {
+      dispatch(removeBookmarkedArticleSuccess(article.url));
+    } else {
+      dispatch(addBookmarkedArticleSuccess(article));
+    }
+  };
   const articleSlug = generateSlug(article.title);
   return (
     <Card
       maxW="sm"
       overflow="hidden"
       boxShadow="md"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
       _hover={{ boxShadow: "0px 4px 6px var(--secondary-opacity) " }}
     >
       <Link href={article.url}>
@@ -48,16 +78,29 @@ const NewsCard: React.FC<NewsCardProps> = ({ article }) => {
             fontSize="xs"
             pb="4"
             textAlign="justify"
-            borderBottom="solid 0.5px var(--opacity-black)"
             color="var(--opacity-black)"
           >
             {article.description}
           </Text>
         </Box>
-        <Box p="4" display="flex" justifyContent="flex-end">
-          <FaRegBookmark color="var(--opacity-black)" />
-        </Box>
       </Link>
+      <Box
+        p="4"
+        display="flex"
+        justifyContent="flex-end"
+        borderTop="solid 0.5px var(--opacity-black)"
+      >
+        <IconButton
+          aria-label="Bookmark Article"
+          icon={isBookmarked ? <FaBookmark /> : <FaRegBookmark />}
+          color={isBookmarked ? "black" : "var(--opacity-black)"}
+          variant="ghost"
+          onClick={(e) => {
+            e.preventDefault(); // Prevents link navigation when clicking the button
+            toggleBookmark();
+          }}
+        />
+      </Box>
     </Card>
   );
 };

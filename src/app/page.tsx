@@ -44,8 +44,9 @@ export default function Home() {
   }, [searchQuery, dispatch]);
 
   const heading = ["Recents", "Everything"];
+
   return (
-    <Box p="6">
+    <Box p="6" width="100%" height={allLoading ? "90vh" : "auto"}>
       <InputGroup mb="10" width="50%">
         <InputLeftElement
           pointerEvents="none"
