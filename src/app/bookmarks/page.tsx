@@ -4,7 +4,7 @@ import { RootState } from "@/store/store";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-const page = () => {
+const BookMarkedArticlesPage = () => {
   const bookmarkedArticles = useSelector(
     (state: RootState) => state.bookmarkedArticles.articles
   );
@@ -26,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default BookMarkedArticlesPage;
