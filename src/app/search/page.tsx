@@ -37,10 +37,11 @@ export default function Search() {
       display="flex"
       flexDirection="column"
       height="90vh"
+      alignItems="center"
       mt="15%"
       width={`calc(100vw - 350px)`}
     >
-      <InputGroup mb="10" width="100%">
+      <InputGroup mb="10" width="60%">
         <InputLeftElement
           pointerEvents="none"
           display="flex"
