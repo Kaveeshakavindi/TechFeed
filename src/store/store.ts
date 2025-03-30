@@ -1,13 +1,16 @@
 "use client"
 import { configureStore } from "@reduxjs/toolkit";
-import { articlesSlice, bookMarkedArticlesSlice, searchArticleSlice } from "./reducers";
+import {  bookMarkedArticlesSlice } from "./reducers";
+import { fetchArticlesApi } from "@/services/dataService";
+import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
     reducer: {
-        articles: articlesSlice.reducer,
-        searchArticles: searchArticleSlice.reducer,
-        bookmarkedArticles: bookMarkedArticlesSlice.reducer
-    }
+        bookmarkedArticles: bookMarkedArticlesSlice.reducer,
+        [fetchArticlesApi.reducerPath]: fetchArticlesApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware().concat(fetchArticlesApi.middleware)
 })
-
+setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

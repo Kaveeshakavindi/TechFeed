@@ -1,8 +1,6 @@
 "use client";
 import CustomMenu from "@/components/ui/menu";
 import NewsCard from "@/components/ui/newsCard";
-import { getArticles, getSearchArticles } from "@/store/actions";
-import { RootState } from "@/store/store";
 import {
   Box,
   Heading,
@@ -13,35 +11,32 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/store/store";
+import {
+  useGetAllArticlesQuery,
+  useGetSearchArticlesQuery,
+} from "@/services/dataService";
 export default function Home() {
-  const dispatch = useDispatch<AppDispatch>();
   const [searchQuery, setSearchQuery] = useState("");
 
+  // const {
+  //   articles: allData,
+  //   loading: allLoading,
+  //   error: allError,
+  // } = useSelector((state: RootState) => state.articles);
+
   const {
-    articles: allData,
-    loading: allLoading,
+    data: allData,
+    isLoading: allLoading,
     error: allError,
-  } = useSelector((state: RootState) => state.articles);
+  } = useGetAllArticlesQuery("");
 
   const {
-    articles: searchData,
-    loading: searchLoading,
+    data: searchData,
+    isLoading: searchLoading,
     error: searchError,
-  } = useSelector((state: RootState) => state.searchArticles);
-
-  useEffect(() => {
-    dispatch(getArticles());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (searchQuery) {
-      dispatch(getSearchArticles(searchQuery));
-    }
-  }, [searchQuery, dispatch]);
+  } = useGetSearchArticlesQuery(searchQuery);
 
   const heading = ["Recents", "Everything"];
 
@@ -74,7 +69,7 @@ export default function Home() {
           {searchLoading ? (
             <Spinner size="lg" />
           ) : searchError ? (
-            <Text color="red">{searchError}</Text>
+            <Text color="red">Error</Text>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
               {searchData?.map((article, index) => (
@@ -86,8 +81,8 @@ export default function Home() {
       ) : (
         ""
       )}
+
       <Heading mb="6">Discover</Heading>
-      {/* recents */}
       {heading.map((item, index) => (
         <Box key={index}>
           <Box
@@ -104,7 +99,7 @@ export default function Home() {
           {allLoading ? (
             <Spinner size="lg" />
           ) : allError ? (
-            <Text color="red">{allError}</Text>
+            <Text color="red">error</Text>
           ) : (
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
               {item === "Recents"
