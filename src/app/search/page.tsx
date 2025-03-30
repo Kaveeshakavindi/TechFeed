@@ -1,7 +1,7 @@
 "use client";
 import NewsCard from "@/components/ui/newsCard";
-import { getSearchArticles } from "@/store/actions";
-import { AppDispatch, RootState } from "@/store/store";
+import { useGetSearchArticlesQuery } from "@/services/dataService";
+import { AppDispatch } from "@/store/store";
 import {
   Box,
   Text,
@@ -12,24 +12,18 @@ import {
   Spinner,
   SimpleGrid,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function Search() {
   const dispatch = useDispatch<AppDispatch>();
   const [searchQuery, setSearchQuery] = useState("");
   const {
-    articles: searchData,
-    loading: searchLoading,
+    data: searchData,
+    isLoading: searchLoading,
     error: searchError,
-  } = useSelector((state: RootState) => state.searchArticles);
-
-  useEffect(() => {
-    if (searchQuery) {
-      dispatch(getSearchArticles(searchQuery));
-    }
-  }, [searchQuery, dispatch]);
+  } = useGetSearchArticlesQuery(searchQuery);
 
   return (
     <Box
@@ -37,10 +31,26 @@ export default function Search() {
       display="flex"
       flexDirection="column"
       height="90vh"
+      justifyContent="left"
       alignItems="center"
       mt="15%"
       width={`calc(100vw - 350px)`}
     >
+      {!searchQuery && (
+        <Box>
+          <Text
+            display="flex"
+            fontSize="5xl"
+            fontWeight="bold"
+            color="var(--secondary)"
+          >
+            Find What{" "}
+            <Text as="span" color="var(--primary)">
+              Matters
+            </Text>
+          </Text>
+        </Box>
+      )}
       <InputGroup mb="10" width="60%">
         <InputLeftElement
           pointerEvents="none"
@@ -62,13 +72,16 @@ export default function Search() {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </InputGroup>
+
+      <Heading mb="6" textAlign="left" width="100%">
+        {searchQuery ? "Search Results" : ""}
+      </Heading>
       {searchQuery && searchData ? (
         <Box mt="3rem" mb="6">
-          <Heading mb="6">Search results</Heading>
           {searchLoading ? (
             <Spinner size="lg" />
           ) : searchError ? (
-            <Text color="red">{searchError}</Text>
+            <Text color="red">Error occured</Text>
           ) : (
             <SimpleGrid mb={5} columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
               {searchData?.map((article, index) => (
