@@ -1,8 +1,10 @@
+'use client'
 import { Box, Button, Tab, TabList, Tabs, Text } from '@chakra-ui/react'
 import Link from 'next/link'
 import { BiChevronRightSquare } from 'react-icons/bi'
-
+import { useRouter } from 'next/navigation'
 export default function VerticleTabs () {
+  const router = useRouter()
   const pages = ['home', 'search', 'bookmarks', 'profile', 'settings', 'logout']
   return (
     <Tabs
@@ -54,7 +56,12 @@ export default function VerticleTabs () {
           mt='2rem'
           mb='3rem'
         >
-          <Button colorScheme='whiteAlpha'>Sign In</Button>
+          <Button
+            colorScheme='whiteAlpha'
+            onClick={() => router.push('/login')}
+          >
+            Sign In
+          </Button>
         </Box>
       </TabList>
     </Tabs>

@@ -41,7 +41,7 @@ export default function Search () {
               color: 'var(--secondary)'
             }}
           >
-            Find What <span style={{ color: 'var(--primary)' }}>Matters</span>
+            Find The <span style={{ color: 'var(--primary)' }}>Article</span>
           </div>
         </Box>
       )}
