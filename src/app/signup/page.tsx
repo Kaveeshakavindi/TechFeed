@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { loginInputs, socials } from '@/data'
+import { signUpInputs, socials } from '@/data'
 import {
   Button,
   Input,
@@ -8,19 +8,21 @@ import {
   InputLeftElement,
   InputRightElement
 } from '@chakra-ui/react'
+import { signUpFormProps } from '@/types/types'
 import { useRouter } from 'next/navigation'
-const Login = () => {
+const Signup = () => {
   const router = useRouter()
   const [eyeCheck, setEyeCheck] = useState(false)
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<signUpFormProps>({
+    name: '',
     email: '',
     password: ''
   })
   return (
     <div className='w-[100vw] bg-white h-[100vh] flex flex-col fixed left-0 z-1000 items-center justify-center '>
-      <div className='font-bold py-4'>Sign In With Email</div>
+      <div className='font-bold py-4'>Sign Up</div>
       <form className='lg:w-[30%] w-[50%]'>
-        {loginInputs.map((input, idx) => (
+        {signUpInputs.map((input, idx) => (
           <div key={idx}>
             <InputGroup mb='3'>
               <InputLeftElement color='gray' py='6'>
@@ -89,11 +91,11 @@ const Login = () => {
           Forgot Password?
         </div>
         <Button className='w-full' marginY='4' bg='black' colorScheme='green'>
-          Sign In
+          Sign Up
         </Button>
       </form>
 
-      <div className='text-sm text-neutral-500'>Or login in with</div>
+      <div className='text-sm text-neutral-500'>Or sign up with</div>
       <div className='my-4 flex flex-row justify-between gap-2 w-[10%] text-lg items-center justify-center'>
         {socials.map((social, index) => (
           <div
@@ -105,16 +107,16 @@ const Login = () => {
         ))}
       </div>
       <div className='text-sm text-neutral-500'>
-        {`Don't have an account?`}{' '}
+        {`Have an account?`}{' '}
         <span
           className='text-green-600 cursor-pointer'
-          onClick={() => router.push('/signup')}
+          onClick={() => router.push('/login')}
         >
-          Sign Up
+          Log In
         </span>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Signup

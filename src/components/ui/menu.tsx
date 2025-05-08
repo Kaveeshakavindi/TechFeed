@@ -1,33 +1,32 @@
-"use client";
+'use client'
 
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useState } from "react";
-import { HiSortAscending } from "react-icons/hi";
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
+import { HiSortAscending } from 'react-icons/hi'
 
-export default function CustomMenu() {
-  const [option] = useState("");
-  //const [value, setValue] = useState("asc");
-  // function handleSort(arg0: string): void {
-  //   throw new Error("Function not implemented.");
-  // }
-
+export default function CustomMenu ({
+  selectedOption,
+  onSelect
+}: {
+  selectedOption: string
+  onSelect: (value: string) => void
+}) {
   return (
     <Menu>
       <MenuButton
         as={Button}
-        variant="outline"
-        size="sm"
+        variant='outline'
+        size='sm'
         rightIcon={<HiSortAscending />}
-        fontWeight="normal"
-        color="var(--opacity-black)"
+        fontWeight='normal'
+        color='var(--opacity-black)'
       >
-        {option ? option : "Sort by"}
+        {selectedOption ? selectedOption : 'Sort by'}
       </MenuButton>
       <MenuList>
-        <MenuItem value={"relevancy"}>Relevancy</MenuItem>
-        <MenuItem value={"popularity"}>Popularity</MenuItem>
-        <MenuItem value={"publishedAt"}>Newest</MenuItem>
+        <MenuItem onClick={() => onSelect('relevancy')}>Relevancy</MenuItem>
+        <MenuItem onClick={() => onSelect('popularity')}>Popularity</MenuItem>
+        <MenuItem onClick={() => onSelect('publishedAt')}>Newest</MenuItem>
       </MenuList>
     </Menu>
-  );
+  )
 }

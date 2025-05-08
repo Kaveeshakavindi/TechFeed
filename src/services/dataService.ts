@@ -20,5 +20,26 @@ export const fetchArticlesApi = createApi({
         })
     })
 })
+export const authApi = createApi({
+    reducerPath: 'authApi',
+    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/api' }),
+    endpoints: (build) => ({
+      login: build.mutation<{ token: string }, { email: string; password: string }>({
+        query: (credentials) => ({
+          url: '/login',
+          method: 'POST',
+          body: credentials
+        })
+      }),
+      signup: build.mutation<{ message: string }, { email: string; password: string }>({
+        query: (user) => ({
+          url: '/signup',
+          method: 'POST',
+          body: user
+        })
+      })
+    })
+  })
+  
 
 export const { useGetAllArticlesQuery, useGetSearchArticlesQuery } = fetchArticlesApi
